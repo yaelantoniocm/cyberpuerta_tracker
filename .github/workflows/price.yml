@@ -2,8 +2,8 @@ name: Cybergate price tracker
 
 on:
   schedule:
-    - cron: "0 0-5,12-23 * * *"   # every hour on the hour, 6:00 AM–11:00 PM (CDMX, UTC-6)
-    - cron: "35 9 * * *"          # single overnight run, 3:35 AM CDMX
+    - cron: "*/20 0-5,12-23 * * *"   # every 20 min (:00, :20, :40), 6:00 AM–11:00 PM (CDMX, UTC-6)
+    - cron: "35 9 * * *"             # single overnight run, 3:35 AM CDMX
   workflow_dispatch:              # manual run button
 
 permissions:
@@ -17,9 +17,9 @@ jobs:
   track:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
