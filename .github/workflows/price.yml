@@ -19,14 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0            # full history so 'pull --rebase' works cleanly
+          fetch-depth: 1            # shallow clone: faster, and stays fast as history grows
 
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+          cache: pip                 # cache dependencies so pip install is near-instant
 
       - name: Install dependencies
-        run: pip install cloudscraper beautifulsoup4
+        run: pip install -r requirements.txt
 
       - name: Check prices and stock
         env:
