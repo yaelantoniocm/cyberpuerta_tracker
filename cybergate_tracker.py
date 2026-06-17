@@ -60,9 +60,11 @@ def get_data(url, scraper):
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, "html.parser")
 
-    # Price: stable Cyberpuerta (Nuxt) container
+    # Price: the <h2> inside the price box holds the CURRENT price.
+    # (On discounted items the box also has a struck-through "price-from"
+    # <span>; selecting the whole box would merge both numbers and fail.)
     price = None
-    el = soup.select_one(".pdp-price-info__price")
+    el = soup.select_one(".pdp-price-info__price h2")
     if el:
         price = to_number(el.get_text())
 
