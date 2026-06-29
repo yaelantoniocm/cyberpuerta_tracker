@@ -3,7 +3,7 @@
 Tracks price and stock of SEVERAL Cyberpuerta products and notifies via
 Telegram when:
   - the price reaches a product's desired_price or drops below it
-    (alerts on EVERY run while the price stays at/under the target)
+    (alerts only when the price CHANGES while at/under the target)
   - fewer pieces remain than a product's min_stock (alerts once per crossing)
 
 Products are configured in products.json (one entry each). To add more, just
@@ -15,7 +15,7 @@ Local usage:
     pip install cloudscraper beautifulsoup4
     export TELEGRAM_TOKEN="123:ABC..."
     export TELEGRAM_CHAT_ID="987654321"
-    python cybergate_tracker.py
+    python cyberpuerta_tracker.py
 """
 
 import json
@@ -111,15 +111,22 @@ def check(product, price, stock, st, scraper):
     minimum = int(product.get("min_stock", 0) or 0)
     url = product["url"]
 
-    # ----- PRICE alert: fires on EVERY run while at/under target -----
+    # ----- PRICE alert: fires only when the price CHANGES while at/under target -----
+    # Alerts the first time it drops to/under target, then again only if the
+    # price is different from the last one we alerted at. Quiet while unchanged.
     if price is not None and desired and price <= desired:
-        notify(
-            f"🎯 <b>{name}</b>\n"
-            f"Target price reached!\n"
-            f"Current: <b>${price:,.2f}</b> (target: ${desired:,.2f})\n"
-            f"{url}",
-            scraper,
-        )
+        last_alerted_price = st.get("last_alerted_price")
+        if last_alerted_price is None or price != last_alerted_price:
+            notify(
+                f"🎯 <b>{name}</b>\n"
+                f"Target price reached!\n"
+                f"Current: <b>${price:,.2f}</b> (target: ${desired:,.2f})\n"
+                f"{url}",
+                scraper,
+            )
+            st["last_alerted_price"] = price
+    else:
+        st["last_alerted_price"] = None  # back above target: re-arm
 
     # ----- LOW STOCK alert: fires only on each NEW lower level -----
     # Once below 'minimum', alert when stock drops to a value lower than the
@@ -172,7 +179,7 @@ def main():
             continue
 
         print(f"[OK] {name} -> price={price}  stock={stock}")
-        st = state.get(url, {"last_price": None, "last_alerted_stock": None})
+        st = state.get(url, {"last_price": None, "last_alerted_price": None, "last_alerted_stock": None})
         state[url] = check(product, price, stock, st, scraper)
 
     STATE.write_text(json.dumps(state, indent=2, ensure_ascii=False))

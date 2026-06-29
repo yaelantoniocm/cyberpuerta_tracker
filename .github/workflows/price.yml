@@ -1,4 +1,4 @@
-name: Cybergate price tracker
+name: Cyberpuerta price tracker
 
 on:
   schedule:
@@ -10,7 +10,7 @@ permissions:
   contents: write                 # to commit the state file back to the repo
 
 concurrency:
-  group: cybergate-tracker
+  group: cyberpuerta-tracker
   cancel-in-progress: false
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
         env:
           TELEGRAM_TOKEN:   ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python cybergate_tracker.py
+        run: python cyberpuerta_tracker.py
 
       - name: Commit state if changed
         run: |
