@@ -6,15 +6,9 @@
     "min_stock": 2
   },
   {
-    "name": "PSU ASUS ROG Thor Platinum III 1200W",
-    "url": "https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Fuentes-de-Poder-para-PC-s/Fuente-de-Poder-ASUS-ROG-Thor-Platinum-III-80-PLUS-Platinum-ATX-Modular-24-pin-ATX-12VHPWR-135mm-1200W.html",
-    "desired_price": 9000,
-    "min_stock": 3
-  },
-  {
-    "name": "GPU GYGABYTE 5090 MASTER ICE",
-    "url": "https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-AORUS-NVIDIA-GeForce-RTX-5090-MASTER-ICE-32GB-512-bit-GDDR7-PCI-Express-x16-5-0.html",
-    "desired_price": 79000,
+    "name": "NO BREAK Smartbitt SBNB2200PROII Línea Interactiva, 1.800W",
+    "url": "https://www.cyberpuerta.mx/Energia/Proteccion-Contra-Descargas/No-Break-UPS/No-Break-UPS/No-Break-Smartbitt-SBNB2200PROII-Linea-Interactiva-1-800W-2-200VA-Entrada-81V-145V-Salida-120V-8-Salidas.html?force_sid=0fguqemfud82qosrr2os9fcja2",
+    "desired_price": 11000,
     "min_stock": 2
   }
 ]
